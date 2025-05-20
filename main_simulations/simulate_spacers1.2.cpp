@@ -28,12 +28,11 @@ The output of the simulation is Pmatch, the probability that the target of a spa
 #include <time.h>
 #include <string.h>
 
-
+// Constant conditions of the simulation
 #define MAXGEN 5000	// Number of generations to simulate
 #define NUMSPC 40			// Number of spacers in the array
 #define NUMREPS 5000		// Number of replicates
 
-#define PI 3.141592654
 #define IA 16807
 #define IM 2147483647
 #define AM (1.0/IM)
@@ -43,12 +42,11 @@ The output of the simulation is Pmatch, the probability that the target of a spa
 #define NDIV (1+(IM-1)/NTAB)
 #define EPS 1.2e-7
 #define RNMX (1.0-EPS)
+#define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;   // Required for function 'select()' which is used to obtain the quartiles
 
-#define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;   // Required for function 'select()' which is used to obtain the quartiles.
 
-
-//long seed = -1395170709;
-long seed = - (long)time(NULL);	// Para los numeros aleatorios
+//long seed = -1395170709; // Fixed seed for reproducibility
+long seed = - (long)time(NULL);	// Random seed for random number generation
 long *idum = &seed;
 double ran1(long *idum);
 
@@ -58,9 +56,9 @@ double CalcEfficacySingle(double logalpha,double beta,double gamma,double t);	//
 void UpdateArray(double spBeta[],int spAge[],int id,int Nsp,double pEndemic);	// Update array by replacing selected spacer
 void UpdateEfficacy(double spBeta[],int spAge[],double spEff[],double logalpha,double gamma,int Nsp);	// Update the efficacies
 void QuartilesByColumn(double Qs[][4],double data[][NUMSPC],int nrow,int ncol);				// Calculates quartiles (Q1, Q2, Q3) and mean
-double ran1(long *idum);
+double ran1(long *idum); // Random number generator
 double select(unsigned long k, unsigned long n, double arr[]);		// Used to calculate the quartiles
-void init_array(double arr[],double val,int nrow);
+void init_array(double arr[],double val,int nrow); // Initialize array with a value
 void CalculateAveragesByColumn(double endemicAvgBySpacer[NUMSPC], double epidemicAvgBySpacer[NUMSPC],double data[][NUMSPC],int nrow,int ncol);	; //Calculate beta average for endemic and epidemic in a position of the spacer
 
 int main (int argc,char *argv[])

@@ -31,3 +31,10 @@ As an example:
 ```bash
 ./simulate_spacers.cpp 0.1 0 0.2 
 ```
+
+## Different fixed conditions
+
+The number of generations, the array size, and the number of replicates must be changed in the `simulate_spacers1.2.cpp` or `simulate_spacers1.3.cpp` files in the following lines:
+#define MAXGEN 5000	    // Number of generations to simulate
+#define NUMSPC 40	    // Number of spacers in the array
+#define NUMREPS 5000	// Number of replicates

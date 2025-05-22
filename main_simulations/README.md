@@ -5,7 +5,7 @@ This folder contains C++ scripts to simulate CRISPR-Cas adaptive immunity in mic
 ## Contents
 
 - `simulate_spacers1.2.cpp`: Original version of the simulation.
-- `simulate_spacers1.3.cpp`: Modified version that supports extreme conditions like g=60 and Nsp=40 where efficacy values become very high by making the logarithm.
+- `simulate_spacers1.3.cpp`: Modified version that supports extreme conditions like g=60 and Nsp=40, where efficacy values become very high, by making the logarithm.
 
 ## Compilation
 

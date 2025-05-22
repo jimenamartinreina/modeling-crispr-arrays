@@ -8,8 +8,10 @@ Created on Mon Oct 14 10:42:01 2024
 This is a Python script to create a table of different values for three parameters (alpha, gamma
 and pEndemic), based on how many different values you want to study.
 
-It was designed to be used with the model in "simulate_spacers".
+It was designed to be used along the "simulate_spacers.cpp" C++ script, through the bash script "run_simulations.sh".
 """
+
+# Importing libraries
 import numpy as np
 from itertools import product
 
@@ -22,8 +24,8 @@ pEndemic_numbers = np.linspace(0, 0.9, 10)
 
 combinations = list(product(a_numbers, g_numbers, pEndemic_numbers))
 
-# We shuffle the list, so it does not influence later that some parameters make the simulationn longer
-#combinations = np.random.permutation(combinations)
+# We shuffle the list of parameters to avoid bias, so parameters that may lead to longer simulations do not systematically appear together
+combinations = np.random.permutation(combinations)
 
 # Create an output file with these values
 with open('parameters.txt', 'w') as f:

@@ -1,4 +1,4 @@
-/* 09/01/25
+/* 21/04/25
 Simple model for the dynamics of spacers in CRISPR arrays. One spacer is lost and another spacer is gained at each time step. The spacer that is lost is chosen with probability proportional to exp(-incidence), where the incidence (W) of the target depends on the time since the spacer acquisition. We asume that the incidence decays exponentially with time as
 
 incidence: W(t) = log(1/a) * b^{-g} * b^t; with 0 < b < 1; 0 < a < 1; and g > 0. (It's ln the log)
@@ -20,6 +20,14 @@ The output of the simulation is Pmatch, the probability that the target of a spa
 	b -> beta
 	g -> gamma
 	Q -> pEndemic
+
+For extreme parameter combinations (e.g. g=60 and Nsp=40), efficacy values could become very large, causing numerical overflow. 
+To prevent this, in this script efficacy values were stored in log scale, and the fitness function is computed as  
+
+𝑓𝑖𝑡𝑛𝑒𝑠𝑠=1−𝑒^−𝑒^log(𝑊)
+
+only when efficacy is below a threshold (log(W) < 40). 
+Above that, fitness is set to 1 directly, since the exponential of very large values is functionally indistinguishable from 1 in this context. 
 */
 
 #include <stdio.h>
@@ -33,7 +41,6 @@ The output of the simulation is Pmatch, the probability that the target of a spa
 #define NUMSPC 40			// Number of spacers in the array
 #define NUMREPS 5000		// Number of replicates
 
-#define PI 3.141592654
 #define IA 16807
 #define IM 2147483647
 #define AM (1.0/IM)
@@ -43,12 +50,11 @@ The output of the simulation is Pmatch, the probability that the target of a spa
 #define NDIV (1+(IM-1)/NTAB)
 #define EPS 1.2e-7
 #define RNMX (1.0-EPS)
-
 #define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;   // Required for function 'select()' which is used to obtain the quartiles.
 
 
 //long seed = -1395170709;
-long seed = - (long)time(NULL);	// Para los numeros aleatorios
+long seed = - (long)time(NULL);	// Random seed for random number generation
 long *idum = &seed;
 double ran1(long *idum);
 
@@ -122,9 +128,6 @@ int main (int argc,char *argv[])
                     AllFitness[ii][ii2] = 1; // If spEff is too large, thhe fitness value is 1
         }
 
-        // Calculate iterated efficacy (i.e. efficacy over multiple time steps)
-        // Not implemented
-
         // Calculate statistics
         QuartilesByColumn(QuartilesEff, AllEff, Nrep, Nsp);      // Quartiles and mean for efficacy
         QuartilesByColumn(QuartilesBeta, AllBeta, Nrep, Nsp);    // Quartiles and mean for beta
@@ -172,16 +175,6 @@ int main (int argc,char *argv[])
            epidemicAvgBySpacer[ii]);
     return 0;
 }
-
-   /*
-   printf("Beta values (Q1, Q2, Q3, mean)\n");
-   for (ii=0;ii<Nsp;ii++)
-      printf("%6.4f\t%6.4f\t%6.4f\t%6.4f\n",QuartilesBeta[ii][0],QuartilesBeta[ii][1],QuartilesBeta[ii][2],QuartilesBeta[ii][3]);
-   printf("Efficacy (Q1, Q2, Q3, mean)\n");
-   for (ii=0;ii<Nsp;ii++)
-      printf("%6.4f\t%6.4f\t%6.4f\t%6.4f\n",QuartilesEff[ii][0],QuartilesEff[ii][1],QuartilesEff[ii][2],QuartilesEff[ii][3]);
-   */
-
 
 // Auxiliary functions
 
@@ -233,13 +226,11 @@ for (ii=0;ii<Nsp;ii++)
 return;
 }
 
-
 double CalcEfficacySingle(double logalpha,double beta,double gamma,double t)
 {
 double eff = log10(logalpha) + (-gamma * log10(beta)) + (t * log10(beta)); // it really is log(eff), page 122 of the notebook
 return eff;
 }
-
 
 int SelectSpacer(double spEff[], int Nsp) {
     int ii = 0;
@@ -297,23 +288,12 @@ spBeta[0] = getNewBeta(pEndemic);
 return;
 }
 
-
-
 double getNewBeta(double pEndemic)
 {
 double rnum;
 
 do rnum  = ran1(idum);
 while (rnum >= 1);
-
-// Uniform distribution of beta
-//return rnum;
-
-// Linearly biased distribution: p(x) = 2(1-x)
-//return (1-sqrt(1-rnum));
-
-// Exponentially biased distribution p(x) = (exp(-x) - exp(-1))/(1 - exp(-1))
-//return (-log(rnum*(1-exp(-1))+exp(-1)));
 
 // Biased bimodal distribution: epidemic vs endemic viruses
 if (rnum >= pEndemic)
@@ -322,7 +302,6 @@ else
    return 0.9999;
 
 }
-
 
 void QuartilesByColumn(double Qs[][4],double data[][NUMSPC],int nrow,int ncol)
 {

@@ -69,7 +69,6 @@ int main (int argc,char *argv[])
     return -1;
     }
 
-
    // Define variables
    double AllBeta[NUMREPS][NUMSPC] = {0.};	// Betas for the spacers in all replicates
    int AllAge[NUMREPS][NUMSPC] = {0}; 	// Age of spacers in all replicates
@@ -90,7 +89,6 @@ int main (int argc,char *argv[])
    int Nrep = NUMREPS;		  // Number of replicates
    int ii,ii2;
    int validSimulation = 0;      // Flag to determine if the simulation is valid
-
 
    // Define functions
    void SingleSimulation(double spBetaOut[],int spAgeOut[],double logalpha,double gamma,double pEndemic,int Nsp,int tmax);
@@ -116,9 +114,6 @@ int main (int argc,char *argv[])
             for (ii2 = 0; ii2 < Nsp; ii2++)
                 AllFitness[ii][ii2] = 1. - exp(-AllEff[ii][ii2]);
         }
-
-        // Calculate iterated efficacy (i.e. efficacy over multiple time steps)
-        // Not implemented
 
         // Calculate statistics
         QuartilesByColumn(QuartilesEff, AllEff, Nrep, Nsp);      // Quartiles and mean for efficacy
@@ -167,16 +162,6 @@ int main (int argc,char *argv[])
            epidemicAvgBySpacer[ii]);
     return 0;
 }
-
-   /*
-   printf("Beta values (Q1, Q2, Q3, mean)\n");
-   for (ii=0;ii<Nsp;ii++)
-      printf("%6.4f\t%6.4f\t%6.4f\t%6.4f\n",QuartilesBeta[ii][0],QuartilesBeta[ii][1],QuartilesBeta[ii][2],QuartilesBeta[ii][3]);
-   printf("Efficacy (Q1, Q2, Q3, mean)\n");
-   for (ii=0;ii<Nsp;ii++)
-      printf("%6.4f\t%6.4f\t%6.4f\t%6.4f\n",QuartilesEff[ii][0],QuartilesEff[ii][1],QuartilesEff[ii][2],QuartilesEff[ii][3]);
-   */
-
 
 // Auxiliary functions
 
@@ -228,13 +213,11 @@ for (ii=0;ii<Nsp;ii++)
 return;
 }
 
-
 double CalcEfficacySingle(double logalpha,double beta,double gamma,double t)
 {
 double eff = logalpha*pow(beta,-gamma)*pow(beta,t);
 return eff;
 }
-
 
 int SelectSpacer(double spEff[],int Nsp)
 {
@@ -287,23 +270,13 @@ spBeta[0] = getNewBeta(pEndemic);
 return;
 }
 
-
-
+// Function to get a new beta value
 double getNewBeta(double pEndemic)
 {
 double rnum;
 
 do rnum  = ran1(idum);
 while (rnum >= 1);
-
-// Uniform distribution of beta
-//return rnum;
-
-// Linearly biased distribution: p(x) = 2(1-x)
-//return (1-sqrt(1-rnum));
-
-// Exponentially biased distribution p(x) = (exp(-x) - exp(-1))/(1 - exp(-1))
-//return (-log(rnum*(1-exp(-1))+exp(-1)));
 
 // Biased bimodal distribution: epidemic vs endemic viruses
 if (rnum >= pEndemic)
@@ -312,7 +285,6 @@ else
    return 0.9999;
 
 }
-
 
 void QuartilesByColumn(double Qs[][4],double data[][NUMSPC],int nrow,int ncol)
 {

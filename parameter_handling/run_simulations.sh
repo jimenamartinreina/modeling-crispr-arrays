@@ -17,3 +17,10 @@ while read param1 param2 param3; do
 done < parameters.txt
 
 # Remember to give the shell script permission to execute: chmod +x run_simulations.sh
+
+# In case you want to run the script in the background, you can use:
+# nohup ./run_simulations.sh &
+
+# To run in parallel:
+# nohup ./run_simulations1.sh & nohup ./run_simulations2.sh & nohup ./run_simulations3.sh & nohup ./run_simulations4.sh & nohup ./run_simulations5.sh &
+# In my case, I used 5 different scripts that run in parallel, each with a different set of 100 input parameters and output files.

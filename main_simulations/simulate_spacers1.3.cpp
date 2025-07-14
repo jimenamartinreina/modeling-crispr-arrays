@@ -27,7 +27,7 @@ To prevent this, in this script efficacy values were stored in log scale, and th
 𝑓𝑖𝑡𝑛𝑒𝑠𝑠=1−𝑒^−𝑒^log(𝑊)
 
 only when efficacy is below a threshold (log(W) < 40). 
-Above that, fitness is set to 1 directly, since the exponential of very large values is functionally indistinguishable from 1 in this context. 
+Above that, fitness is set to 1 directly, since the exponential of very large values is functionally indistinguishable from 1 (in this context). 
 */
 
 #include <stdio.h>

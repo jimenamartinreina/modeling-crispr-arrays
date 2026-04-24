@@ -20,7 +20,7 @@ This folder contains Jupyter notebooks for processing and analyzing simulation d
 
 ```
 analysis_nsp10/
-├── ANALYSIS/                # Contains processed CSV and TXT files
+├── data/                # Contains processed CSV and TXT files
 ├── Simulations_Data_Beta_1.2.ipynb
 ├── Simulations_Data_Fitness.ipynb
 ├── Analysis_Simulations.ipynb

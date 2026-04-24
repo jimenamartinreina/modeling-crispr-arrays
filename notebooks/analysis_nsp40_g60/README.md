@@ -6,5 +6,5 @@ This folder contains Jupyter notebooks for processing and analyzing simulation d
 
 - **Simulations_Data_Fitness.ipynb**  
     Provides a general overview and summary of the fitness curves for this parameter value.
-- **ANALYSIS**
+- **data folder**
     Contains a .txt file with some calculations for fitness data. However, this file is not complete because these simulations were not used in the heatmaps.

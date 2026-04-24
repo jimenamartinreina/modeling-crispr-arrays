@@ -8,10 +8,10 @@ This folder contains Jupyter notebooks for processing and analyzing simulation d
     Provides a general overview and summary of the simulation results.
 
 - **Simulations_Data_Beta_1.2.ipynb**  
-    Processes simulation output `.txt` files to extract curve properties from beta output and saves the results as `.csv` files in the `ANALYSIS` subfolder.
+    Processes simulation output `.txt` files to extract curve properties from beta output and saves the results as `.csv` files in the `data` subfolder.
 
 - **Simulations_Data_Fitness.ipynb**  
-    Similar to the above, but focuses on extracting fitness-related properties from simulation outputs and storing them as `.csv` files in `ANALYSIS`.
+    Similar to the above, but focuses on extracting fitness-related properties from simulation outputs and storing them as `.csv` files in `data`.
 
 - **Analysis_Simulations_x.ipynb**  
     Analyze the effect of input parameter (a, g and pEndemic) on output variable x ( age, beta or fitness).

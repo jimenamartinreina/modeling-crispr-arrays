@@ -1,0 +1,4 @@
+parameters	max_left_position	max_left_value	max_right_position	max_right_value	min_position	min_value	ratio_of_peaks	euclidean_distance
+0.17_60.00_0.80	29	0.85315	39	0.6579	36	0.52755	1.2968	4.8744
+0.28_60.00_0.10	6	1.0	18	1.0	7	0.99995	1.0000	24.0000
+0.10_60.00_0.40	0	0.9036	25	0.99175	24	0.99085	0.9111	22.5479

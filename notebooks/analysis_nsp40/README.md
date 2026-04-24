@@ -1,4 +1,4 @@
-# NSP10 Analysis Notebooks
+# NSP40 Analysis Notebooks
 
 This folder contains Jupyter notebooks for processing and analyzing simulation data related to simulations with an array size of 40 spacers.
 

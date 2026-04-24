@@ -29,7 +29,7 @@ analysis_nsp10/
 
 ## Usage
 
-1. Run the data processing notebooks (Simulations_Data_x) to generate CSV or TXT files in the `ANALYSIS` folder.
+1. Run the data processing notebooks (Simulations_Data_x) to generate CSV or TXT files in the `data` folder.
 2. Use the analysis notebooks to explore how input parameters affect simulation outcomes.
 
 ## Versions
